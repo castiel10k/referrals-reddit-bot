@@ -6,10 +6,10 @@ import os
 def clearLog():
     os.remove("log.txt")
 
-def printLog(title, newBody, subreddit_name):
-    print(f"{title}\n{newBody}\n{subreddit_name}")
+def printLog(title, newBody, subreddit_name, url):
+    print(f"{title}\n{newBody}\n{subreddit_name}\n{url}")
     f = open("log.txt",'a')
-    print(f"{title}\n{newBody}\n{subreddit_name}\n", file=f)
+    print(f"{title}\n{newBody}\n{subreddit_name}\n{url}\n", file=f)
 
 def sleepRandom(): #delay between posts
     interval = random.randint(34, 480)
@@ -23,11 +23,12 @@ def submitPost(title,body,subreddit_name):
     sleepRandom() #delay between posts
 
     newBody = body.replace('~', '\n')
-    printLog(title, newBody, subreddit_name)
+    
     # Submit post
     
     subreddit = reddit.subreddit(subreddit_name)
     post = subreddit.submit(title, selftext=newBody)
+    printLog(title, newBody, subreddit_name, post.url)
     #print("\n")
     
 
