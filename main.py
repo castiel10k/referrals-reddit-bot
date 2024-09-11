@@ -3,7 +3,7 @@ import datetime, time
 import random
 
 def sleepRandom():
-    interval = random.randint(46, 480)
+    interval = random.randint(34, 480)
     print(f"time is currently at an interval of {interval}!")
     minutesToSleep = interval - datetime.datetime.now().minute % interval
     time.sleep(minutesToSleep * 60)
