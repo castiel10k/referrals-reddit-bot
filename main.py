@@ -3,7 +3,7 @@ import datetime, time
 import random
 
 def sleepRandom():
-    interval = random.randint(4, 26)
+    interval = random.randint(46, 480)
     print(f"time is currently at an interval of {interval}!")
     minutesToSleep = interval - datetime.datetime.now().minute % interval
     time.sleep(minutesToSleep * 60)
@@ -50,7 +50,6 @@ print("\n")
 # Select subreddit and create post
 subreddit=config['subreddit']
 
-submitPost(config['tangerineTitle'],config['tangerineBody'],subreddit)
 submitPost(config['neoTitle'],config['neoBody'],subreddit)
 submitPost(config['eqTitle'],config['eqBody'],subreddit)
 submitPost(config['kohoTitle'],config['kohoBody'],subreddit)
@@ -58,6 +57,7 @@ submitPost(config['wealthsimpleTitle'],config['wealthsimpleBody'],subreddit)
 submitPost(config['amexTitle'],config['amexBody'],subreddit)
 submitPost(config['shakepayTitle'],config['shakepayBody'],subreddit)
 submitPost(config['newtonTitle'],config['newtonBody'],subreddit)
+submitPost(config['tangerineTitle'],config['tangerineBody'],subreddit)
 
 subreddit="OrangeKeys"
 submitPost(config['tangerineTitle'],config['tangerineBody'],subreddit)
