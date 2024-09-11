@@ -11,12 +11,14 @@ def sleepRandom():
 
 def submitPost(title,body,subreddit):
     sleepRandom()
-    # Submit post
-    # post = subreddit.submit(title, selftext=body)
-    newBody = body.replace('~', '\n')
+
     print(f"{title}")
     print(f"{newBody}")
     print(f"{subreddit}")
+
+    # Submit post
+    newBody = body.replace('~', '\n')
+    post = subreddit.submit(title, selftext=body)
     print("\n")
 
 # Function to read credentials from a text file
@@ -40,8 +42,7 @@ reddit = praw.Reddit(
     password=config['password'],
     user_agent=config['user_agent']
 )
-print("\n")
-print("\n")
+print("start")
 print("\n")
 #print(config)
 
@@ -61,4 +62,5 @@ submitPost(config['newtonTitle'],config['newtonBody'],subreddit)
 subreddit="OrangeKeys"
 submitPost(config['tangerineTitle'],config['tangerineBody'],subreddit)
 
+print("\n")
 print("done")
