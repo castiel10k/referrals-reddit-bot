@@ -1,6 +1,14 @@
 import praw
 import datetime, time
 import random
+def clearLog():
+    f = open("log.txt",'w')
+    print("", file=f)
+
+def printLog(title, newBody, subreddit_name):
+    print(f"{title}\n{newBody}\n{subreddit_name}")
+    f = open("log.txt",'a')
+    print(f"{title}\n{newBody}\n{subreddit_name}\n", file=f)
 
 def sleepRandom(): #delay between posts
     interval = random.randint(34, 480)
@@ -11,19 +19,15 @@ def sleepRandom(): #delay between posts
 
 def submitPost(title,body,subreddit_name):
     
-    sleepRandom() #delay between posts
+    #sleepRandom() #delay between posts
 
     newBody = body.replace('~', '\n')
-
-    print(f"{title}")
-    print(f"{newBody}")
-    print(f"{subreddit_name}")
-
+    printLog(title, newBody, subreddit_name)
     # Submit post
     
     subreddit = reddit.subreddit(subreddit_name)
-    post = subreddit.submit(title, selftext=body)
-    print(f"Post created: {post.url}")
+    #post = subreddit.submit(title, selftext=newBody)
+    #print(f"Post created: {post.url}")
     print("\n")
     
 
@@ -48,7 +52,9 @@ reddit = praw.Reddit(
     password=config['password'],
     user_agent=config['user_agent']
 )
+
 print("start")
+clearLog()
 print("\n")
 #print(config)
 
