@@ -2,24 +2,30 @@ import praw
 import datetime, time
 import random
 
-def sleepRandom():
+def sleepRandom(): #delay between posts
     interval = random.randint(34, 480)
     print(f"time is currently at an interval of {interval}!")
     minutesToSleep = interval - datetime.datetime.now().minute % interval
     time.sleep(minutesToSleep * 60)
     
 
-def submitPost(title,body,subreddit):
-    sleepRandom()
+def submitPost(title,body,subreddit_name):
+    
+    #sleepRandom() #delay between posts
+
+    newBody = body.replace('~', '\n')
 
     print(f"{title}")
     print(f"{newBody}")
-    print(f"{subreddit}")
+    print(f"{subreddit_name}")
 
     # Submit post
-    newBody = body.replace('~', '\n')
-    post = subreddit.submit(title, selftext=body)
+    
+    subreddit = reddit.subreddit(subreddit_name)
+    #post = subreddit.submit(title, selftext=body)
+    #print(f"Post created: {post.url}")
     print("\n")
+    
 
 # Function to read credentials from a text file
 def read_config_file(file_path):
@@ -48,19 +54,21 @@ print("\n")
 
 
 # Select subreddit and create post
-subreddit=config['subreddit']
+subreddit_name=config['subreddit']
 
-submitPost(config['neoTitle'],config['neoBody'],subreddit)
-submitPost(config['eqTitle'],config['eqBody'],subreddit)
-submitPost(config['kohoTitle'],config['kohoBody'],subreddit)
-submitPost(config['wealthsimpleTitle'],config['wealthsimpleBody'],subreddit)
-submitPost(config['amexTitle'],config['amexBody'],subreddit)
-submitPost(config['shakepayTitle'],config['shakepayBody'],subreddit)
-submitPost(config['newtonTitle'],config['newtonBody'],subreddit)
-submitPost(config['tangerineTitle'],config['tangerineBody'],subreddit)
+submitPost(config['neoTitle'],config['neoBody'],subreddit_name)
+submitPost(config['eqTitle'],config['eqBody'],subreddit_name)
+submitPost(config['kohoTitle'],config['kohoBody'],subreddit_name)
+submitPost(config['wealthsimpleTitle'],config['wealthsimpleBody'],subreddit_name)
+submitPost(config['amexTitle'],config['amexBody'],subreddit_name)
+submitPost(config['shakepayTitle'],config['shakepayBody'],subreddit_name)
+submitPost(config['newtonTitle'],config['newtonBody'],subreddit_name)
+submitPost(config['tangerineTitle'],config['tangerineBody'],subreddit_name)
+submitPost(config['rakutenTitle'],config['rakutenBody'],subreddit_name)
+submitPost(config['timTitle'],config['timBody'],subreddit_name)
 
-subreddit="OrangeKeys"
-submitPost(config['tangerineTitle'],config['tangerineBody'],subreddit)
+subreddit_name=config['subreddit2']
+submitPost(config['tangerineTitle'],config['tangerineBody'],subreddit_name)
 
 print("\n")
 print("done")
