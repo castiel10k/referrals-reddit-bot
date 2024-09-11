@@ -1,9 +1,10 @@
 import praw
 import datetime, time
 import random
+import os
+
 def clearLog():
-    f = open("log.txt",'w')
-    print("", file=f)
+    os.remove("log.txt")
 
 def printLog(title, newBody, subreddit_name):
     print(f"{title}\n{newBody}\n{subreddit_name}")
@@ -19,16 +20,15 @@ def sleepRandom(): #delay between posts
 
 def submitPost(title,body,subreddit_name):
     
-    #sleepRandom() #delay between posts
+    sleepRandom() #delay between posts
 
     newBody = body.replace('~', '\n')
     printLog(title, newBody, subreddit_name)
     # Submit post
     
     subreddit = reddit.subreddit(subreddit_name)
-    #post = subreddit.submit(title, selftext=newBody)
-    #print(f"Post created: {post.url}")
-    print("\n")
+    post = subreddit.submit(title, selftext=newBody)
+    #print("\n")
     
 
 # Function to read credentials from a text file
@@ -54,8 +54,8 @@ reddit = praw.Reddit(
 )
 
 print("start")
-clearLog()
 print("\n")
+clearLog()
 #print(config)
 
 
