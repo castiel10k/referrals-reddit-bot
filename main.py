@@ -11,7 +11,7 @@ def sleepRandom(): #delay between posts
 
 def submitPost(title,body,subreddit_name):
     
-    #sleepRandom() #delay between posts
+    sleepRandom() #delay between posts
 
     newBody = body.replace('~', '\n')
 
@@ -22,8 +22,8 @@ def submitPost(title,body,subreddit_name):
     # Submit post
     
     subreddit = reddit.subreddit(subreddit_name)
-    #post = subreddit.submit(title, selftext=body)
-    #print(f"Post created: {post.url}")
+    post = subreddit.submit(title, selftext=body)
+    print(f"Post created: {post.url}")
     print("\n")
     
 
