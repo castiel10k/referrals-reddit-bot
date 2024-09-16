@@ -4,7 +4,10 @@ import random
 import os
 
 def clearLog():
-    os.remove("log.txt")
+    try:
+        os.remove("log.txt")
+    except OSError:
+        pass
 
 def printLog(title, newBody, subreddit_name, url):
     print(f"{title}\n{newBody}\n{subreddit_name}\n{url}")
@@ -12,24 +15,24 @@ def printLog(title, newBody, subreddit_name, url):
     print(f"{title}\n{newBody}\n{subreddit_name}\n{url}\n", file=f)
 
 def sleepRandom(): #delay between posts
-    interval = random.randint(34, 480)
+    interval = random.randint(34, 56)
     print(f"time is currently at an interval of {interval}!")
     minutesToSleep = interval - datetime.datetime.now().minute % interval
     time.sleep(minutesToSleep * 60)
     
 
 def submitPost(title,body,subreddit_name):
-    
-    sleepRandom() #delay between posts
-
-    newBody = body.replace('~', '\n')
+    newBody = body.replace('~', '\n\n')
     
     # Submit post
-    
     subreddit = reddit.subreddit(subreddit_name)
     post = subreddit.submit(title, selftext=newBody)
     printLog(title, newBody, subreddit_name, post.url)
+    #printLog(title, newBody, subreddit_name, "N/A")
     #print("\n")
+
+    #delay between posts
+    sleepRandom()
     
 
 # Function to read credentials from a text file
@@ -54,6 +57,11 @@ reddit = praw.Reddit(
     user_agent=config['user_agent']
 )
 
+interval = 1
+print(f"time is currently at an interval of {interval}!")
+minutesToSleep = interval - datetime.datetime.now().minute % interval
+time.sleep(minutesToSleep * 60)
+
 print("start")
 print("\n")
 clearLog()
@@ -62,7 +70,6 @@ clearLog()
 
 # Select subreddit and create post
 subreddit_name=config['subreddit']
-
 submitPost(config['neoTitle'],config['neoBody'],subreddit_name)
 submitPost(config['eqTitle'],config['eqBody'],subreddit_name)
 submitPost(config['kohoTitle'],config['kohoBody'],subreddit_name)
@@ -73,9 +80,36 @@ submitPost(config['newtonTitle'],config['newtonBody'],subreddit_name)
 submitPost(config['tangerineTitle'],config['tangerineBody'],subreddit_name)
 submitPost(config['rakutenTitle'],config['rakutenBody'],subreddit_name)
 submitPost(config['timTitle'],config['timBody'],subreddit_name)
+submitPost(config['pcTitle'],config['pcBody'],subreddit_name)
 
 subreddit_name=config['subreddit2']
 submitPost(config['tangerineTitle'],config['tangerineBody'],subreddit_name)
+
+subreddit_name=config['subreddit3']
+submitPost("[CANADA] "+config['neoTitle'],config['neoBody'],subreddit_name)
+submitPost("[CANADA] "+config['eqTitle'],config['eqBody'],subreddit_name)
+submitPost("[CANADA] "+config['kohoTitle'],config['kohoBody'],subreddit_name)
+submitPost("[CANADA] "+config['wealthsimpleTitle'],config['wealthsimpleBody'],subreddit_name)
+submitPost("[CANADA] "+config['amexTitle'],config['amexBody'],subreddit_name)
+submitPost("[CANADA] "+config['shakepayTitle'],config['shakepayBody'],subreddit_name)
+submitPost("[CANADA] "+config['newtonTitle'],config['newtonBody'],subreddit_name)
+submitPost("[CANADA] "+config['tangerineTitle'],config['tangerineBody'],subreddit_name)
+submitPost("[CANADA] "+config['rakutenTitle'],config['rakutenBody'],subreddit_name)
+submitPost("[CANADA] "+config['timTitle'],config['timBody'],subreddit_name)
+submitPost("[CANADA] "+config['pcTitle'],config['pcBody'],subreddit_name)
+
+subreddit_name=config['subreddit4']
+submitPost("[CANADA] "+config['neoTitle'],config['neoBody'],subreddit_name)
+submitPost("[CANADA] "+config['eqTitle'],config['eqBody'],subreddit_name)
+submitPost("[CANADA] "+config['kohoTitle'],config['kohoBody'],subreddit_name)
+submitPost("[CANADA] "+config['wealthsimpleTitle'],config['wealthsimpleBody'],subreddit_name)
+submitPost("[CANADA] "+config['amexTitle'],config['amexBody'],subreddit_name)
+submitPost("[CANADA] "+config['shakepayTitle'],config['shakepayBody'],subreddit_name)
+submitPost("[CANADA] "+config['newtonTitle'],config['newtonBody'],subreddit_name)
+submitPost("[CANADA] "+config['tangerineTitle'],config['tangerineBody'],subreddit_name)
+submitPost("[CANADA] "+config['rakutenTitle'],config['rakutenBody'],subreddit_name)
+submitPost("[CANADA] "+config['timTitle'],config['timBody'],subreddit_name)
+submitPost("[CANADA] "+config['pcTitle'],config['pcBody'],subreddit_name)
 
 print("\n")
 print("done")
