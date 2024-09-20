@@ -15,7 +15,7 @@ def printLog(title, newBody, subreddit_name, url):
     print(f"{title}\n{newBody}\n{subreddit_name}\n{url}\n", file=f)
 
 def sleepRandom(): #delay between posts
-    interval = random.randint(34, 56)
+    interval = random.randint(7, 36)
     print(f"time is currently at an interval of {interval}!")
     minutesToSleep = interval - datetime.datetime.now().minute % interval
     time.sleep(minutesToSleep * 60)
@@ -55,7 +55,21 @@ reddit = praw.Reddit(
     username=config['username'],
     password=config['password'],
     user_agent=config['user_agent']
+    #redirect_uri="http://localhost:8080"
 )
+
+# Generate OAuth2 URL for user authorization
+#auth_url = reddit.auth.url(["identity", "submit"], "random_state_string", "permanent")
+#print(f"Please go to the following URL to authenticate: {auth_url}")
+
+# After the user authorizes your app and you get the code from the redirected URL:
+#authorization_code = input("Enter the code from the URL: ")
+
+# Use the authorization code to get an access token
+#reddit.auth.authorize(authorization_code)
+
+# Verify that the authorization was successful
+print(f"Logged in as: {reddit.user.me()}")
 
 interval = 1
 print(f"time is currently at an interval of {interval}!")
@@ -67,49 +81,73 @@ print("\n")
 clearLog()
 #print(config)
 
+submitPost(config['neoTitle'],config['neoBody'],config['subreddit'])
 
-# Select subreddit and create post
-subreddit_name=config['subreddit']
-submitPost(config['neoTitle'],config['neoBody'],subreddit_name)
-submitPost(config['eqTitle'],config['eqBody'],subreddit_name)
-submitPost(config['kohoTitle'],config['kohoBody'],subreddit_name)
-submitPost(config['wealthsimpleTitle'],config['wealthsimpleBody'],subreddit_name)
-submitPost(config['amexTitle'],config['amexBody'],subreddit_name)
-submitPost(config['shakepayTitle'],config['shakepayBody'],subreddit_name)
-submitPost(config['newtonTitle'],config['newtonBody'],subreddit_name)
-submitPost(config['tangerineTitle'],config['tangerineBody'],subreddit_name)
-submitPost(config['rakutenTitle'],config['rakutenBody'],subreddit_name)
-submitPost(config['timTitle'],config['timBody'],subreddit_name)
-submitPost(config['pcTitle'],config['pcBody'],subreddit_name)
+submitPost(config['tangerineTitle'],config['tangerineBody'],config['subreddit2'])
 
-subreddit_name=config['subreddit2']
-submitPost(config['tangerineTitle'],config['tangerineBody'],subreddit_name)
+submitPost("[CANADA] "+config['neoTitle'],config['neoBody'],config['subreddit3'])
 
-subreddit_name=config['subreddit3']
-submitPost("[CANADA] "+config['neoTitle'],config['neoBody'],subreddit_name)
-submitPost("[CANADA] "+config['eqTitle'],config['eqBody'],subreddit_name)
-submitPost("[CANADA] "+config['kohoTitle'],config['kohoBody'],subreddit_name)
-submitPost("[CANADA] "+config['wealthsimpleTitle'],config['wealthsimpleBody'],subreddit_name)
-submitPost("[CANADA] "+config['amexTitle'],config['amexBody'],subreddit_name)
-submitPost("[CANADA] "+config['shakepayTitle'],config['shakepayBody'],subreddit_name)
-submitPost("[CANADA] "+config['newtonTitle'],config['newtonBody'],subreddit_name)
-submitPost("[CANADA] "+config['tangerineTitle'],config['tangerineBody'],subreddit_name)
-submitPost("[CANADA] "+config['rakutenTitle'],config['rakutenBody'],subreddit_name)
-submitPost("[CANADA] "+config['timTitle'],config['timBody'],subreddit_name)
-submitPost("[CANADA] "+config['pcTitle'],config['pcBody'],subreddit_name)
+submitPost("[CANADA] "+config['neoTitle'],config['neoBody'],config['subreddit4'])
 
-subreddit_name=config['subreddit4']
-submitPost("[CANADA] "+config['neoTitle'],config['neoBody'],subreddit_name)
-submitPost("[CANADA] "+config['eqTitle'],config['eqBody'],subreddit_name)
-submitPost("[CANADA] "+config['kohoTitle'],config['kohoBody'],subreddit_name)
-submitPost("[CANADA] "+config['wealthsimpleTitle'],config['wealthsimpleBody'],subreddit_name)
-submitPost("[CANADA] "+config['amexTitle'],config['amexBody'],subreddit_name)
-submitPost("[CANADA] "+config['shakepayTitle'],config['shakepayBody'],subreddit_name)
-submitPost("[CANADA] "+config['newtonTitle'],config['newtonBody'],subreddit_name)
-submitPost("[CANADA] "+config['tangerineTitle'],config['tangerineBody'],subreddit_name)
-submitPost("[CANADA] "+config['rakutenTitle'],config['rakutenBody'],subreddit_name)
-submitPost("[CANADA] "+config['timTitle'],config['timBody'],subreddit_name)
-submitPost("[CANADA] "+config['pcTitle'],config['pcBody'],subreddit_name)
+submitPost(config['eqTitle'],config['eqBody'],config['subreddit'])
+
+submitPost("[CANADA] "+config['eqTitle'],config['eqBody'],config['subreddit3'])
+
+submitPost("[CANADA] "+config['eqTitle'],config['eqBody'],config['subreddit4'])
+
+submitPost(config['kohoTitle'],config['kohoBody'],config['subreddit'])
+
+submitPost("[CANADA] "+config['kohoTitle'],config['kohoBody'],config['subreddit3'])
+
+submitPost("[CANADA] "+config['kohoTitle'],config['kohoBody'],config['subreddit4'])
+
+submitPost(config['wealthsimpleTitle'],config['wealthsimpleBody'],config['subreddit'])
+
+submitPost("[CANADA] "+config['wealthsimpleTitle'],config['wealthsimpleBody'],config['subreddit3'])
+
+submitPost("[CANADA] "+config['wealthsimpleTitle'],config['wealthsimpleBody'],config['subreddit4'])
+
+submitPost(config['amexTitle'],config['amexBody'],config['subreddit'])
+
+submitPost("[CANADA] "+config['amexTitle'],config['amexBody'],config['subreddit3'])
+
+submitPost("[CANADA] "+config['amexTitle'],config['amexBody'],config['subreddit4'])
+
+submitPost(config['shakepayTitle'],config['shakepayBody'],config['subreddit'])
+
+submitPost("[CANADA] "+config['shakepayTitle'],config['shakepayBody'],config['subreddit3'])
+
+submitPost("[CANADA] "+config['shakepayTitle'],config['shakepayBody'],config['subreddit4'])
+
+submitPost(config['newtonTitle'],config['newtonBody'],config['subreddit'])
+
+submitPost("[CANADA] "+config['newtonTitle'],config['newtonBody'],config['subreddit3'])
+
+submitPost("[CANADA] "+config['rakutenTitle'],config['rakutenBody'],config['subreddit4'])
+
+submitPost(config['rakutenTitle'],config['rakutenBody'],config['subreddit'])
+
+submitPost("[CANADA] "+config['tangerineTitle'],config['tangerineBody'],config['subreddit3'])
+
+submitPost("[CANADA] "+config['newtonTitle'],config['newtonBody'],config['subreddit4'])
+
+submitPost(config['timTitle'],config['timBody'],config['subreddit'])
+
+submitPost("[CANADA] "+config['rakutenTitle'],config['rakutenBody'],config['subreddit3'])
+
+submitPost("[CANADA] "+config['tangerineTitle'],config['tangerineBody'],config['subreddit4'])
+
+submitPost(config['pcTitle'],config['pcBody'],config['subreddit'])
+
+submitPost("[CANADA] "+config['timTitle'],config['timBody'],config['subreddit3'])
+
+submitPost("[CANADA] "+config['pcTitle'],config['pcBody'],config['subreddit4'])
+
+submitPost(config['tangerineTitle'],config['tangerineBody'],config['subreddit'])
+
+submitPost("[CANADA] "+config['pcTitle'],config['pcBody'],config['subreddit3'])
+
+submitPost("[CANADA] "+config['timTitle'],config['timBody'],config['subreddit4'])
 
 print("\n")
 print("done")
