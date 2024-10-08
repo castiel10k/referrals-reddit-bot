@@ -1,6 +1,7 @@
 config.txt
 log.txt
-
+database.db.sql
+database.db
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
