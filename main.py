@@ -3,13 +3,22 @@ import datetime, time
 import random
 import os
 import sqlite3
+
+class referral:
+  def __init__(self, information):
+    self.title = information[0][0]
+    self.body = information[0][1]
+    self.subreddit = information[1]
+
 def getInformation(row):
-    #print(row[0], row[1])
+    #print(row[0], row[1]) isTangerine()
     query = "SELECT a.title, b.body FROM referralTitle a, referralBody b WHERE a.id = ? AND b.id = ?"
     cursor.execute(query, (row[0], row[1]))
-    print(cursor.fetchall())
-    return cursor.fetchall()
-
+    #print(cursor.fetchall())
+    listTemp = cursor.fetchall()
+    #listTemp.append(row[2])
+    #print(listTemp)
+    return listTemp 
 
 def isTangerine():
     pass
@@ -82,18 +91,51 @@ sqlDB = sqlite3.connect("database.db")
 #create cursor
 cursor = sqlDB.cursor()
 #table = readSQL()
-list = []
-for row in cursor.execute("SELECT * FROM linkTitleBody"):
-    information = getInformation(row)
-    postObject.fillInformation(information)
-    list.append(postObject)
 
-result  = cursor.execute("SELECT * FROM linkTitleBody").fetchall()
+listSubreddits = []
+for row in cursor.execute("SELECT * FROM subreddit").fetchall():
+    #print(cursor.fetchall())
+    #information = getInformation(row[1])
+    #print(information)
+    temp = row[1]
+    #print(temp.title , temp.body)
+    listSubreddits.append(temp)
+#print(listSubreddits)
+
+listReferrals = []
+for row in cursor.execute("SELECT * FROM linkTitleBody").fetchall():
+    #print(row)
+    information = getInformation(row)
+    information.append(row[3])
+    #print(information)
+    tempSubreddits = listSubreddits[:]
+    if information[1]!=1:
+            tempSubreddits.remove("OrangeKeys")
+    for p in tempSubreddits:
+        information[1]=p
+        temp = referral(information)
+        if temp.subreddit !="OrangeKeys" and temp.subreddit!="CanadaReferralCodes":
+            temp.title = "[CANADA] " + temp.title
+        listReferrals.append(temp)
+    #print(temp.title , temp.body)
+    
+
+
+
+#close db
+sqlDB.close()
+random.shuffle(listReferrals)
+
+for p in listReferrals:
+    print("Title: ",p.title,"\r\nBody: ",p.body,"\r\nSubreddit: ",p.subreddit)
+    print("-------------------------------------------")
+
+#result  = cursor.execute("SELECT * FROM linkTitleBody").fetchall()
 
 #randomizeTable()
 #cycleTable()
 
-print(result)
+#print(result)
 
 # Generate OAuth2 URL for user authorization
 auth_url = reddit.auth.url(["identity", "submit"], "login-referral", "permanent")
@@ -120,97 +162,8 @@ print("\n")
 clearLog()
 #print(config)
 
-
-
-
-submitPost(config['wealthsimpleTitle'],config['wealthsimpleBody'],config['subreddit'])
-
-submitPost("[CANADA] "+config['wealthsimpleTitle'],config['wealthsimpleBody'],config['subreddit3'])
-
-submitPost("[CANADA] "+config['wealthsimpleTitle'],config['wealthsimpleBody'],config['subreddit4'])
-
-
-submitPost(config['amexTitle'],config['amexBody'],config['subreddit'])
-
-submitPost("[CANADA] "+config['amexTitle'],config['amexBody'],config['subreddit3'])
-
-submitPost("[CANADA] "+config['amexTitle'],config['amexBody'],config['subreddit4'])
-
-submitPost(config['shakepayTitle'],config['shakepayBody'],config['subreddit'])
-
-submitPost("[CANADA] "+config['shakepayTitle'],config['shakepayBody'],config['subreddit3'])
-
-submitPost("[CANADA] "+config['shakepayTitle'],config['shakepayBody'],config['subreddit4'])
-
-
-submitPost(config['newtonTitle'],config['newtonBody'],config['subreddit'])
-
-submitPost("[CANADA] "+config['newtonTitle'],config['newtonBody'],config['subreddit3'])
-
-submitPost("[CANADA] "+config['newtonTitle'],config['newtonBody'],config['subreddit4'])
-
-
-submitPost(config['rakutenTitle'],config['rakutenBody'],config['subreddit'])
-
-submitPost("[CANADA] "+config['rakutenTitle'],config['rakutenBody'],config['subreddit3'])
-
-submitPost("[CANADA] "+config['rakutenTitle'],config['rakutenBody'],config['subreddit4'])
-
-
-submitPost(config['pcTitle'],config['pcBody'],config['subreddit'])
-
-submitPost("[CANADA] "+config['pcTitle'],config['pcBody'],config['subreddit4'])
-
-submitPost("[CANADA] "+config['pcTitle'],config['pcBody'],config['subreddit3'])
-
-
-submitPost(config['timTitle'],config['timBody'],config['subreddit'])
-
-submitPost("[CANADA] "+config['timTitle'],config['timBody'],config['subreddit3'])
-
-submitPost("[CANADA] "+config['timTitle'],config['timBody'],config['subreddit4'])
-
-
-submitPost(config['virgoTitle'],config['virgoBody'],config['subreddit'])
-
-submitPost("[CANADA] "+config['virgoTitle'],config['virgoBody'],config['subreddit3'])
-
-submitPost("[CANADA] "+config['virgoTitle'],config['virgoBody'],config['subreddit4'])
-
-
-submitPost(config['neoTitle'],config['neoBody'],config['subreddit'])
-
-submitPost("[CANADA] "+config['neoTitle'],config['neoBody'],config['subreddit3'])
-
-submitPost("[CANADA] "+config['neoTitle'],config['neoBody'],config['subreddit4'])
-
-
-submitPost(config['eqTitle'],config['eqBody'],config['subreddit'])
-
-submitPost("[CANADA] "+config['eqTitle'],config['eqBody'],config['subreddit3'])
-
-submitPost("[CANADA] "+config['eqTitle'],config['eqBody'],config['subreddit4'])
-
-
-submitPost(config['journieTitle'],config['journieBody'],config['subreddit'])
-
-submitPost("[CANADA] "+config['journieTitle'],config['journieBody'],config['subreddit3'])
-
-submitPost("[CANADA] "+config['journieTitle'],config['journieBody'],config['subreddit4'])
-
-#submitPost(config['tangerineTitle'],config['tangerineBody'],config['subreddit'])
-
-#submitPost(config['tangerineTitle'],config['tangerineBody'],config['subreddit2'])
-
-#submitPost("[CANADA] "+config['tangerineTitle'],config['tangerineBody'],config['subreddit3'])
-
-#submitPost("[CANADA] "+config['tangerineTitle'],config['tangerineBody'],config['subreddit4'])
-
-submitPost(config['kohoTitle'],config['kohoBody'],config['subreddit'])
-
-submitPost("[CANADA] "+config['kohoTitle'],config['kohoBody'],config['subreddit3'])
-
-submitPost("[CANADA] "+config['kohoTitle'],config['kohoBody'],config['subreddit4'])
+for p in listReferrals:
+    pass #post here
 
 print("\n")
 print("done")
