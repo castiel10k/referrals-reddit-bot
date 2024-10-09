@@ -163,7 +163,7 @@ clearLog()
 #print(config)
 
 for p in listReferrals:
-    pass #post here
+    submitPost(p.title,p.body,p.subreddit)
 
 print("\n")
 print("done")
