@@ -3,6 +3,9 @@ import datetime, time
 import random
 import os
 import sqlite3
+from urllib.parse import urlparse
+from urllib.parse import parse_qs
+import configparser
 
 class referral:
   def __init__(self, information):
@@ -61,30 +64,53 @@ def submitPost(title,body,subreddit_name):
     
 
 # Function to read credentials from a text file
-def read_config_file(file_path):
-    config = {}
-    with open(file_path, 'r') as file:
-        for line in file:
-            if '=' in line:
-                key, value = line.strip().split('=', 1)
-                config[key] = value
-    return config
+#def read_config_file(file_path):
+#    config = {}
+#    with open(file_path, 'r') as file:
+#        for line in file:
+#            if '=' in line:
+#                key, value = line.strip().split('=', 1)
+#                config[key] = value
+#    return config
 
 # Load credentials
-config = read_config_file('config.txt')
+#config = read_config_file('config.ini')
+config = configparser.ConfigParser() #eventually TODO
+config.read('config.ini')
+
 
 # Initialize Reddit instance with credentials from file
 reddit = praw.Reddit(
-    client_id=config['client_id'],
-    client_secret=config['client_secret'],
-    username=config['username'],
-    password=config['password'],
-    user_agent=config['user_agent'],
-    redirect_uri="http://localhost:8080"
+    client_id=config['DEFAULT']['client_id'],
+    client_secret=config['DEFAULT']['client_secret'],
+    username=config['DEFAULT']['username'],
+    password=config['DEFAULT']['password'],
+    user_agent=config['DEFAULT']['user_agent'],
+    redirect_uri=config['DEFAULT']['redirect_uri'],
 )
 #connect
-sqlDB = sqlite3.connect("database.db")
 
+
+try:
+    # Attempt to connect to the SQLite database
+    sqlDB = sqlite3.connect("database.db")
+    
+    # If connection is successful, print success message
+    print("Connected to the database successfully!")
+
+except sqlite3.Error as e:
+    # Print the error message if connection fails
+    print(f"Failed to connect to the database: {e}")
+    if sqlDB:
+        sqlDB.close()
+
+#finally:
+    # Always close the connection if it was opened
+    #if sqlDB:
+    #    sqlDB.close()
+
+
+#sqlDB = sqlite3.connect("database.db")
 #------------------------------------
 #if not exist create sample and crash
 #------------------------------------
@@ -126,9 +152,9 @@ for row in cursor.execute("SELECT * FROM linkTitleBody").fetchall():
 sqlDB.close()
 random.shuffle(listReferrals)
 
-for p in listReferrals:
-    print("Title: ",p.title,"\r\nBody: ",p.body,"\r\nSubreddit: ",p.subreddit)
-    print("-------------------------------------------")
+#for p in listReferrals:
+#    print("Title: ",p.title,"\r\nBody: ",p.body,"\r\nSubreddit: ",p.subreddit)
+#    print("-------------------------------------------")
 
 #result  = cursor.execute("SELECT * FROM linkTitleBody").fetchall()
 
@@ -143,8 +169,23 @@ print(f"Please go to the following URL to authenticate: {auth_url}")
 
 # After the user authorizes your app and you get the code from the redirected URL:
 authorization_code = input("Enter the code from the URL: ")
+
+parsed_url = urlparse(authorization_code)
+captured_value = parse_qs(parsed_url.query)['code'][0]
+
+print(captured_value)
+
 if authorization_code == '':
-    authorization_code = config['secretkey']
+    authorization_code = config['DEFAULT']['secretkey']
+else:
+    config['DEFAULT']['secretkey'] = captured_value
+    with open('config.ini', 'w') as configfile:
+        config.write(configfile)
+    config.read('config.ini')
+    authorization_code = config['DEFAULT']['secretkey']
+    #updateConfig()
+
+
 
 # Use the authorization code to get an access token
 reddit.auth.authorize(authorization_code)
