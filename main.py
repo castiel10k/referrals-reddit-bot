@@ -60,7 +60,7 @@ def submitPost(title,body,subreddit_name):
     except:
         pass
     #delay between posts
-    sleepRandom()
+    #sleepRandom()
     
 
 # Function to read credentials from a text file
@@ -77,7 +77,7 @@ def submitPost(title,body,subreddit_name):
 #config = read_config_file('config.ini')
 config = configparser.ConfigParser() #eventually TODO
 config.read('config.ini')
-
+clearLog()
 
 # Initialize Reddit instance with credentials from file
 reddit = praw.Reddit(
@@ -144,13 +144,35 @@ for row in cursor.execute("SELECT * FROM linkTitleBody").fetchall():
             temp.title = "[CANADA] " + temp.title
         listReferrals.append(temp)
     #print(temp.title , temp.body)
-    
 
+#tangerine toggle
+listReferrals = [p for p in listReferrals if "tangerine" not in p.title.lower()]
+
+i=0
+# Check the filtered result
+for p in listReferrals:
+    print(p.title," ", i)
+    i+=1
 
 
 #close db
 sqlDB.close()
+
+printLog("LIST BEFORE SHUFFLE", "", "", "N/A" )
+i=0
+for p in listReferrals:
+    printLog(i, p.title, p.subreddit, "N/A" )
+    i+=1
+
 random.shuffle(listReferrals)
+
+
+printLog("LIST AFTER SHUFFLE", "", "", "N/A" )
+i=0
+for p in listReferrals:
+    printLog(i, p.title, p.subreddit, "N/A" )
+    i+=1
+
 
 #for p in listReferrals:
 #    print("Title: ",p.title,"\r\nBody: ",p.body,"\r\nSubreddit: ",p.subreddit)
@@ -162,22 +184,20 @@ random.shuffle(listReferrals)
 #cycleTable()
 
 #print(result)
-
+try:
+    reddit.auth.authorize(config['DEFAULT']['secretkey'])
+    print(f"Logged in as: {reddit.user.me()}")       
+except Exception  as e:
+    print(e)
 # Generate OAuth2 URL for user authorization
-auth_url = reddit.auth.url(["identity", "submit"], "login-referral", "permanent")
-print(f"Please go to the following URL to authenticate: {auth_url}")
+    auth_url = reddit.auth.url(["identity", "submit"], "login-referral", "permanent")
+    print(f"Please go to the following URL to authenticate: {auth_url}")
 
-# After the user authorizes your app and you get the code from the redirected URL:
-authorization_code = input("Enter the code from the URL: ")
-
-parsed_url = urlparse(authorization_code)
-captured_value = parse_qs(parsed_url.query)['code'][0]
-
-print(captured_value)
-
-if authorization_code == '':
-    authorization_code = config['DEFAULT']['secretkey']
-else:
+    # After the user authorizes your app and you get the code from the redirected URL:
+    authorization_code = input("Enter the code from the URL: ")
+    parsed_url = urlparse(authorization_code)
+    captured_value = parse_qs(parsed_url.query)['code'][0]
+    print(captured_value)
     config['DEFAULT']['secretkey'] = captured_value
     with open('config.ini', 'w') as configfile:
         config.write(configfile)
@@ -186,9 +206,9 @@ else:
     #updateConfig()
 
 
-
-# Use the authorization code to get an access token
-reddit.auth.authorize(authorization_code)
+    print(authorization_code)
+    # Use the authorization code to get an access token
+    reddit.auth.authorize(authorization_code)
 
 # Verify that the authorization was successful
 print(f"Logged in as: {reddit.user.me()}")
@@ -200,7 +220,7 @@ time.sleep(minutesToSleep * 60)
 
 print("start")
 print("\n")
-clearLog()
+
 #print(config)
 
 for p in listReferrals:
