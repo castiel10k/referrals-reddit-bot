@@ -52,7 +52,7 @@ def submitPost(title,body,subreddit_name):
     try:
         # Submit post
         subreddit = reddit.subreddit(subreddit_name)
-        #post = subreddit.submit(title, selftext=newBody)
+        post = subreddit.submit(title, selftext=newBody)
         print("-------------------------------------------------------------")
         printLog(title, newBody, subreddit_name, post.shortlink if post.shortlink is not None else "N/A" )
         #printLog(title, newBody, subreddit_name, "N/A")
@@ -60,7 +60,7 @@ def submitPost(title,body,subreddit_name):
     except:
         pass
     #delay between posts
-    #sleepRandom()
+    sleepRandom()
     
 
 # Function to read credentials from a text file
@@ -148,11 +148,11 @@ for row in cursor.execute("SELECT * FROM linkTitleBody").fetchall():
 #tangerine toggle
 listReferrals = [p for p in listReferrals if "tangerine" not in p.title.lower()]
 
-i=0
+#i=0
 # Check the filtered result
-for p in listReferrals:
-    print(p.title," ", i)
-    i+=1
+#for p in listReferrals:
+#    print(p.title," ", i)
+#    i+=1
 
 
 #close db
@@ -197,16 +197,15 @@ except Exception  as e:
     authorization_code = input("Enter the code from the URL: ")
     parsed_url = urlparse(authorization_code)
     captured_value = parse_qs(parsed_url.query)['code'][0]
-    print(captured_value)
-    config['DEFAULT']['secretkey'] = captured_value
-    with open('config.ini', 'w') as configfile:
-        config.write(configfile)
-    config.read('config.ini')
+    #print(captured_value)
+    #config['DEFAULT']['secretkey'] = captured_value
+    #with open('config.ini', 'w') as configfile:
+    #    config.write(configfile)
+    #config.read('config.ini')
     authorization_code = config['DEFAULT']['secretkey']
     #updateConfig()
 
-
-    print(authorization_code)
+    #print(authorization_code)
     # Use the authorization code to get an access token
     reddit.auth.authorize(authorization_code)
 
@@ -222,7 +221,7 @@ print("start")
 print("\n")
 
 #print(config)
-
+#while true:
 for p in listReferrals:
     submitPost(p.title,p.body,p.subreddit)
 
