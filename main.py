@@ -6,6 +6,7 @@ import sqlite3
 from urllib.parse import urlparse
 from urllib.parse import parse_qs
 import configparser
+import prawcore
 
 class referral:
   def __init__(self, information):
@@ -42,6 +43,7 @@ def printLog(title, newBody, subreddit_name, url):
 
 def sleepRandom(): #delay between posts
     interval = random.randint(36, 54)
+    interval = 1
     print(f"time is currently at an interval of {interval}! and it is {datetime.datetime.now()} and will be {datetime.datetime.now() + datetime.timedelta(minutes=interval)}")
     time.sleep(interval * 60)
     
@@ -148,6 +150,45 @@ for row in cursor.execute("SELECT * FROM linkTitleBody").fetchall():
 #tangerine toggle
 listReferrals = [p for p in listReferrals if "tangerine" not in p.title.lower()]
 
+i=0
+listTemp = []
+for p in listReferrals:
+    listTemp.append(p)
+    if "newton" in p.title.lower() or "shakepay" in p.title.lower() or "virgocx" in p.title.lower():
+        pass
+    else: 
+        if "referralcodescrypto" in p.subreddit.lower():
+            #printLog(i, p.title, p.subreddit, "N/A" )
+            listTemp.remove(p)
+    i+=1
+listReferrals = listTemp
+
+i=0
+for p in listReferrals:
+    printLog(i, p.title, p.subreddit, "N/A" )
+    i+=1
+#listReferrals = [p for p in listReferrals if "neo" not in p.title.lower()]
+
+#listReferrals = [p for p in listReferrals if "koho" not in p.title.lower()]
+
+#listReferrals = [p for p in listReferrals if "wealthsimple" not in p.title.lower()]
+
+#listReferrals = [p for p in listReferrals if "rakuten" not in p.title.lower()]
+
+#listReferrals = [p for p in listReferrals if "simplycash" not in p.title.lower()]
+
+#listReferrals = [p for p in listReferrals if "shakepay" not in p.title.lower()]
+
+#listReferrals = [p for p in listReferrals if "newton" not in p.title.lower()]
+
+#listReferrals = [p for p in listReferrals if "tims" not in p.title.lower()]
+
+#listReferrals = [p for p in listReferrals if "pc" not in p.title.lower()]
+
+#listReferrals = [p for p in listReferrals if "virgocx" not in p.title.lower()]
+
+#listReferrals = [p for p in listReferrals if "journie" not in p.title.lower()]
+
 #i=0
 # Check the filtered result
 #for p in listReferrals:
@@ -185,29 +226,35 @@ for p in listReferrals:
 
 #print(result)
 try:
-    reddit.auth.authorize(config['DEFAULT']['secretkey'])
-    print(f"Logged in as: {reddit.user.me()}")       
-except Exception  as e:
-    print(e)
-# Generate OAuth2 URL for user authorization
     auth_url = reddit.auth.url(["identity", "submit"], "login-referral", "permanent")
     print(f"Please go to the following URL to authenticate: {auth_url}")
-
-    # After the user authorizes your app and you get the code from the redirected URL:
     authorization_code = input("Enter the code from the URL: ")
     parsed_url = urlparse(authorization_code)
     captured_value = parse_qs(parsed_url.query)['code'][0]
+    print(captured_value,authorization_code)
+    reddit.auth.authorize(captured_value)
+    print(f"Logged in as: {reddit.user.me()}")       
+except prawcore.exceptions.ResponseException as e:
+    print(f"ResponseException: {e.response.text}")
+except Exception as e:
+    print(f"Unexpected error: {e}")
+# Generate OAuth2 URL for user authorization
+    
+    
+
+    # After the user authorizes your app and you get the code from the redirected URL:
+    
     #print(captured_value)
     #config['DEFAULT']['secretkey'] = captured_value
     #with open('config.ini', 'w') as configfile:
     #    config.write(configfile)
     #config.read('config.ini')
-    authorization_code = config['DEFAULT']['secretkey']
+    
     #updateConfig()
 
     #print(authorization_code)
     # Use the authorization code to get an access token
-    reddit.auth.authorize(authorization_code)
+    
 
 # Verify that the authorization was successful
 print(f"Logged in as: {reddit.user.me()}")
