@@ -43,7 +43,7 @@ def printLog(title, newBody, subreddit_name, url):
 
 def sleepRandom(): #delay between posts
     interval = random.randint(36, 54)
-    interval = 1
+    #interval = 1
     print(f"time is currently at an interval of {interval}! and it is {datetime.datetime.now()} and will be {datetime.datetime.now() + datetime.timedelta(minutes=interval)}")
     time.sleep(interval * 60)
     
