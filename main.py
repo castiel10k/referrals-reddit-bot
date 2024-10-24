@@ -55,7 +55,7 @@ def submitPost(title,body,subreddit_name):
         # Submit post
         subreddit = reddit.subreddit(subreddit_name)
         post = subreddit.submit(title, selftext=newBody)
-        print("-------------------------------------------------------------")
+        #print("-------------------------------------------------------------")
         printLog(title, newBody, subreddit_name, post.shortlink if post.shortlink is not None else "N/A" )
         #printLog(title, newBody, subreddit_name, "N/A")
         #print("\n")
@@ -163,10 +163,10 @@ for p in listReferrals:
     i+=1
 listReferrals = listTemp
 
-i=0
-for p in listReferrals:
-    printLog(i, p.title, p.subreddit, "N/A" )
-    i+=1
+#i=0
+#for p in listReferrals:
+#    printLog(i, p.title, p.subreddit, "N/A" )
+#    i+=1
 #listReferrals = [p for p in listReferrals if "neo" not in p.title.lower()]
 
 #listReferrals = [p for p in listReferrals if "koho" not in p.title.lower()]
@@ -199,16 +199,16 @@ for p in listReferrals:
 #close db
 sqlDB.close()
 
-printLog("LIST BEFORE SHUFFLE", "", "", "N/A" )
-i=0
-for p in listReferrals:
-    printLog(i, p.title, p.subreddit, "N/A" )
-    i+=1
+#printLog("LIST BEFORE SHUFFLE", "", "", "N/A" )
+#i=0
+#for p in listReferrals:
+#    printLog(i, p.title, p.subreddit, "N/A" )
+#    i+=1
 
 random.shuffle(listReferrals)
 
 
-printLog("LIST AFTER SHUFFLE", "", "", "N/A" )
+#printLog("LIST AFTER SHUFFLE", "", "", "N/A" )
 i=0
 for p in listReferrals:
     printLog(i, p.title, p.subreddit, "N/A" )
@@ -231,7 +231,7 @@ try:
     authorization_code = input("Enter the code from the URL: ")
     parsed_url = urlparse(authorization_code)
     captured_value = parse_qs(parsed_url.query)['code'][0]
-    print(captured_value,authorization_code)
+    #print(captured_value,authorization_code)
     reddit.auth.authorize(captured_value)
     print(f"Logged in as: {reddit.user.me()}")       
 except prawcore.exceptions.ResponseException as e:
@@ -257,20 +257,20 @@ except Exception as e:
     
 
 # Verify that the authorization was successful
-print(f"Logged in as: {reddit.user.me()}")
+#print(f"Logged in as: {reddit.user.me()}")
 
 interval = 1
 print(f"time is currently at an interval of {interval}! and it is {datetime.datetime.now()} and will be {datetime.datetime.now() + datetime.timedelta(minutes=interval)}")
 minutesToSleep = interval - datetime.datetime.now().minute % interval
 time.sleep(minutesToSleep * 60)
 
-print("start")
-print("\n")
+print("start\n")
+
 
 #print(config)
 #while true:
 for p in listReferrals:
     submitPost(p.title,p.body,p.subreddit)
 
-print("\n")
-print("done")
+
+print("\ndone")
