@@ -42,10 +42,12 @@ def printLog(title, newBody, subreddit_name, url):
     print(f"{title}\n{newBody}\n{subreddit_name}\n{url}\n", file=f)
 
 def sleepRandom(): #delay between posts
-    interval = random.randint(36, 54)
+    interval = random.randint(6, 12)
     #interval = 1
-    print(f"time is currently at an interval of {interval}! and it is {datetime.datetime.now()} and will be {datetime.datetime.now() + datetime.timedelta(minutes=interval)}")
-    time.sleep(interval * 60)
+    print(f"time is currently at an interval of {interval}! and it is {datetime.datetime.now()} and will be {datetime.datetime.now() + datetime.timedelta(hours=interval)}")
+    for x in range(interval*60):
+        print(f"it is {datetime.datetime.now()} also {x} vs {interval*60}")
+        time.sleep(60)
     
 
 def submitPost(title,body,subreddit_name):
@@ -77,7 +79,9 @@ def submitPost(title,body,subreddit_name):
 
 # Load credentials
 #config = read_config_file('config.ini')
-config = configparser.ConfigParser() #eventually TODO
+from configparser import RawConfigParser
+config = configparser.RawConfigParser() #eventually TODO
+
 config.read('config.ini')
 clearLog()
 
