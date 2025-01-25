@@ -151,8 +151,7 @@ for row in cursor.execute("SELECT * FROM linkTitleBody").fetchall():
         listReferrals.append(temp)
     #print(temp.title , temp.body)
 
-#tangerine toggle
-listReferrals = [p for p in listReferrals if "tangerine" not in p.title.lower()]
+
 
 i=0
 listTemp = []
@@ -171,6 +170,10 @@ listReferrals = listTemp
 #for p in listReferrals:
 #    printLog(i, p.title, p.subreddit, "N/A" )
 #    i+=1
+
+#tangerine toggle
+#listReferrals = [p for p in listReferrals if "tangerine" not in p.title.lower()]
+
 #listReferrals = [p for p in listReferrals if "neo" not in p.title.lower()]
 
 #listReferrals = [p for p in listReferrals if "koho" not in p.title.lower()]
