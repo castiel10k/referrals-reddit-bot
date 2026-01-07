@@ -47,7 +47,7 @@ def clearLog():
 
 def printLog(title, newBody, subreddit_name, url):
     print(f"{title}\n{newBody}\n{subreddit_name}\n{url}")
-    f = open("log.txt",'a')
+    f = open("log.txt", 'a', encoding='utf-8')
     print(f"{title}\n{newBody}\n{subreddit_name}\n{url}\n", file=f)
 
 def load_post_history():
