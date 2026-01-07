@@ -452,7 +452,7 @@ for row in cursor.execute("SELECT * FROM linkTitleBody").fetchall():
         information[1]=p
         temp = referral(information)
         if temp.subreddit !="OrangeKeys" and temp.subreddit!="CanadaReferralCodes":
-            temp.title = "[CANADA] " + temp.title
+            temp.title = "🍁[CANADA]🍁 " + temp.title
         listReferrals.append(temp)
 
 # Filter referrals
